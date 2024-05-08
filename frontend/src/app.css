@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-gray-300;
+}
+.app {
+    @apply max-w-lg mx-auto;
+}
