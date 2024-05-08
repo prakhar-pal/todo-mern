@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Space, Button } from "antd"
 import TodoCard from "./TodoCard";
+import AddTodoModal from "./AddTodoModal";
 const TodoList = ({ todos }) => {
+    const [showAddTodoModal, setShowAddTodoModal] = useState(false);
     return (
     <>
+        {showAddTodoModal && <AddTodoModal onClose={() => setShowAddTodoModal(false)}/>}
         <Space direction="horizontal" className="mb-8 mt-4">
-            <Button title="Add" type="primary">
+            <Button title="Add" type="primary" onClick={() => setShowAddTodoModal(true)}>
                 Add
             </Button>
         </Space>
-        <div class="flex flex-wrap gap-1">
-            {todos.map(todo => <TodoCard key={todo._id} title={todo.title} description={todo.description} className={"md:basis-[calc(50%-4px)]"}/>)}
+        <div className="flex flex-wrap gap-2">
+            {todos.map(todo => <TodoCard key={todo._id} title={todo.title} description={todo.description} className={"md:basis-[calc(50%-8px)]"}/>)}
         </div>
     </>
     )

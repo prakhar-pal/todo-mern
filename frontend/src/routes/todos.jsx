@@ -1,5 +1,5 @@
 import React from "react";
-import { getAllTodos } from "../services/apis/todo.service"; 
+import todoApiService from "../services/apis/todo.service"; 
 import { useLoaderData } from "react-router";
 import TodoList from "../components/TodoList";
 
@@ -13,7 +13,7 @@ function Todos() {
 }
 
 export async function loader() {
-    const todosResponse = await getAllTodos();
+    const todosResponse = await todoApiService.getAllTodos();
     return {
         todosResponse
     }
