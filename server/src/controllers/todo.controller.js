@@ -15,6 +15,22 @@ export async function getAllTodos(req, res, next) {
     }
 }
 
+export async function getTodo(req, res, next) {
+    try {
+        const _id = new MongoObjectId(req.params.id);
+        const todo = await Todo.findOne({_id});
+        return res.json({
+            ok: true,
+            todo
+        });
+    } catch {
+        return res.json({
+            ok: false,
+        })
+    }
+}
+
+
 export async function addTodo(req, res, next)  {
     const { title, description } = req.body;
     console.log("addTodo", title, description);
@@ -80,3 +96,5 @@ export async function updateTodo(req, res, next) {
         })
     }
 }
+
+

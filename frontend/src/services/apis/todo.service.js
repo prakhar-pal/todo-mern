@@ -11,7 +11,20 @@ async function addTodo({title, description}) {
     return response.data;
 }
 
+async function getTodo(_id) {
+    const response = await axios.get(`${SERVER_URL}/todo/${_id}`);
+    return response.data;
+}
+
+
+async function updateTodo(todo) {
+    const response = await axios.put(`${SERVER_URL}/todo/`, todo);
+    return response.data;
+}
+
 export default {
     addTodo,
-    getAllTodos
+    getTodo,
+    getAllTodos,
+    updateTodo
 }

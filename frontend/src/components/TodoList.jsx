@@ -13,7 +13,7 @@ const TodoList = ({ todos }) => {
             </Button>
         </Space>
         <div className="flex flex-wrap gap-2">
-            {todos.map(todo => <TodoCard key={todo._id} title={todo.title} description={todo.description} className={"md:basis-[calc(50%-8px)]"}/>)}
+            {todos.map(todo => <TodoCard key={todo._id} {...todo} className={"md:basis-[calc(50%-8px)]"}/>)}
         </div>
     </>
     )

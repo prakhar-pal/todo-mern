@@ -1,16 +1,25 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
-import Todos, { loader as todoLoader} from "../routes/todos.jsx";
+import Todos, { loader as todosLoader} from "../routes/todos.jsx";
+import Root from "./Root.jsx";
+import Todo, { loader as todoLoader } from "../routes/todo.jsx";
 
 export default createBrowserRouter([
     {
         path: "/",
-        exact: true,
-        loader: todoLoader,
-        element: (
-            <main className="app">
-                <Todos />
-            </main>
-        )
+        element: <Root />,
+        children: [
+            {
+                path: "/",
+                exact: true,
+                loader: todosLoader,
+                element: <Todos />
+            },
+            {
+                path: "/todo/:id",
+                loader: todoLoader,
+                element: <Todo />
+            }
+        ]
     },
 ]);

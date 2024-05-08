@@ -1,12 +1,20 @@
 import React, { useEffect } from "react";
 import { Form, Input, Button, Space } from "antd";
 
-function TodoForm({ submitText, onSubmit }) {
+function TodoForm({ submitText, onSubmit, initialTodo }) {
     const [form] = Form.useForm();
     const onFinish = (e) => {
         const {title, description} = e;
-        onSubmit({title, description});
+        const data = {title, description }
+        if(initialTodo?._id) {
+            data._id = initialTodo._id;
+        }
+        onSubmit(data);
     }
+
+    useEffect(() => {
+        form.setFieldsValue(initialTodo)
+    }, [initialTodo])
     return (
         <Form
             layout={"vertical"}
