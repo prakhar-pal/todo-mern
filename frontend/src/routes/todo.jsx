@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import todoApiService from "../services/apis/todo.service";
 import { Link, useNavigate } from "react-router-dom";
-import { Space, Button } from "antd";
+import { Space, Button, Modal, notification } from "antd";
 import { useLoaderData, useRevalidator } from "react-router";
 import TodoCard from "../components/TodoCard";
 import UpdateTodoModal from "../components/UpdateTodoModal.jsx";
@@ -9,6 +9,7 @@ import UpdateTodoModal from "../components/UpdateTodoModal.jsx";
 function EditTodo() {
     const { todo } = useLoaderData();
     const revalidator = useRevalidator();
+    const [sendNotification] = notification.useNotification();
     const [showUpdateTodoModal, setShowUpdateTodoModal] = useState(false);
     const navigate = useNavigate();
     function handleGoBack(e) {
@@ -20,6 +21,28 @@ function EditTodo() {
         setShowUpdateTodoModal(false);
         revalidator.revalidate();
     }
+
+    function handleDeleteTodo() {
+        Modal.confirm({
+            title: "Are you sure?",
+            content: "This can't be reversed",
+            footer: (_, { OkBtn, CancelBtn }) => (
+                <>
+                  <CancelBtn />
+                  <OkBtn />
+                </>
+              ),
+            onOk: async function() {
+                const response = await todoApiService.deleteTodo(todo._id);
+                if(!response.ok) {
+                    alert("Couldn't delete");
+                }else {
+                    return navigate("/");
+                }
+            }
+        });
+    }
+
     return (
         <>
             {showUpdateTodoModal && <UpdateTodoModal {...todo} onClose={onCloseUpdateTodoModal}/>}
@@ -33,16 +56,19 @@ function EditTodo() {
             />
             <Space className="mt-4" align="end">
                 <Button type="primary" onClick={() => setShowUpdateTodoModal(true)}>Update</Button>
-                <Button type="dashed" danger>Delete</Button>
+                <Button type="dashed" danger onClick={handleDeleteTodo}>Delete</Button>
             </Space>
         </>
     )
 }
 
-export function loader({ params }) {
-    console.log("params", params)
-    const response = todoApiService.getTodo(params.id);
-    return response;
+export async function loader({ params }) {
+    const response = await todoApiService.getTodo(params.id);
+    if(!response.ok) {
+        throw new Response("Not Found", { status: 404 });
+    }else {
+        return response;
+    }
 }
 
 export default EditTodo;

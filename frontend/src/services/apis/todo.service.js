@@ -13,7 +13,10 @@ async function addTodo({title, description}) {
 
 async function getTodo(_id) {
     const response = await axios.get(`${SERVER_URL}/todo/${_id}`);
-    return response.data;
+    return {
+        ...response.data,
+        status: response.status,
+    };
 }
 
 
@@ -22,9 +25,15 @@ async function updateTodo(todo) {
     return response.data;
 }
 
+async function deleteTodo(_id) {
+    const response = await axios.delete(`${SERVER_URL}/todo/${_id}`);
+    return response.data;
+}
+
 export default {
     addTodo,
     getTodo,
     getAllTodos,
-    updateTodo
+    updateTodo,
+    deleteTodo,
 }

@@ -19,10 +19,16 @@ export async function getTodo(req, res, next) {
     try {
         const _id = new MongoObjectId(req.params.id);
         const todo = await Todo.findOne({_id});
-        return res.json({
-            ok: true,
-            todo
-        });
+        if(todo) {
+            return res.json({
+                ok: true,
+                todo
+            });
+        } else {
+            return res.status(404).json({
+                ok: false
+            });
+        }
     } catch {
         return res.json({
             ok: false,
@@ -52,7 +58,7 @@ export async function addTodo(req, res, next)  {
 }
 
 export async function removeTodo(req, res, next) {
-    const { _id: stringId } = req.body;
+    const { id: stringId } = req.params;
     try {
         const _id = new MongoObjectId(stringId);
         const todo = await Todo.findOne({ _id });

@@ -8,6 +8,6 @@ router.get("/", asyncHandler(getAllTodos));
 router.get("/:id", asyncHandler(getTodo));
 router.post("/", asyncHandler(addTodo));
 router.put("/", asyncHandler(updateTodo));
-router.delete("/", asyncHandler(removeTodo));
+router.delete("/:id", asyncHandler(removeTodo));
 
 export default router;
