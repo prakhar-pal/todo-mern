@@ -61,7 +61,7 @@ function Todos() {
           type="primary"
           onClick={() => setShowAddTodoModal(true)}
         >
-          Add
+          Add todo
         </Button>
         <Select options={todoFilterOptions} value={statusFilter} className="w-36" onChange={handleStatusFilterChange}/>
       </div>

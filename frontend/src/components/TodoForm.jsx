@@ -34,7 +34,7 @@ function TodoForm({ submitText, onSubmit, initialTodo }) {
                 <Input placeholder="title" />
             </Form.Item>
             <Form.Item label="Description" name="description" rules={[{ required: true, message: "Description is required"}]}>
-                <Input.TextArea placeholder="description" rows={8}/>
+                <Input.TextArea placeholder="description" rows={4}/>
             </Form.Item>
             <Form.Item label="Status" name="status" rules={[{ required: true, message: "Status is required"}]}>
                 <Select options={TodoStatusOptions}/>
