@@ -46,6 +46,11 @@ function Todos() {
     setTodos(response.todos);
   }
 
+  function handleCloseTodoModal() {
+    setShowAddTodoModal(false);
+    fetchTodos();
+  }
+
   useEffect(() => {
     fetchTodos(statusFilter);
   },[]);
@@ -53,7 +58,7 @@ function Todos() {
   return (
     <>
       {showAddTodoModal && (
-        <AddTodoModal onClose={() => setShowAddTodoModal(false)} />
+        <AddTodoModal onClose={handleCloseTodoModal} />
       )}
       <div className="mb-8 mt-4 flex items-center justify-between">
         <Button
