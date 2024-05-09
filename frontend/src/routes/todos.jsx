@@ -4,18 +4,17 @@ import { useLoaderData } from "react-router";
 import TodoList from "../components/TodoList";
 
 function Todos() {
-    const { todosResponse } = useLoaderData();
-    console.log("todos", todosResponse);
-    if(todosResponse.ok) {
-        return <TodoList todos={todosResponse.todos} />;
-    }
-    return <div>Something went wrong</div>
+    const { todos } = useLoaderData();
+    return <TodoList todos={todos} />;
 }
 
 export async function loader() {
-    const todosResponse = await todoApiService.getAllTodos();
+    const response = await todoApiService.getAllTodos();
+    if(!response.ok) {
+        throw new Response("Something went wrong", { status: response.status });
+    }
     return {
-        todosResponse
+        todos: response.todos,
     }
 }
 

@@ -25,7 +25,7 @@ function TodoForm({ submitText, onSubmit, initialTodo }) {
                 <Input placeholder="title" />
             </Form.Item>
             <Form.Item label="Description" name="description">
-                <Input placeholder="description" />
+                <Input.TextArea placeholder="description" rows={8}/>
             </Form.Item>
             <Space align="end">
                 <Form.Item>

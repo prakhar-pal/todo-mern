@@ -9,7 +9,6 @@ import UpdateTodoModal from "../components/UpdateTodoModal.jsx";
 function EditTodo() {
     const { todo } = useLoaderData();
     const revalidator = useRevalidator();
-    const [sendNotification] = notification.useNotification();
     const [showUpdateTodoModal, setShowUpdateTodoModal] = useState(false);
     const navigate = useNavigate();
     function handleGoBack(e) {
@@ -47,12 +46,13 @@ function EditTodo() {
         <>
             {showUpdateTodoModal && <UpdateTodoModal {...todo} onClose={onCloseUpdateTodoModal}/>}
             <Link className="flex mt-4" onClick={handleGoBack}>
-                <span>&larr;</span>
+                <span className="mr-1">&larr;</span>
                 <h3>Details</h3>
             </Link>
             <TodoCard 
                 {...todo}
                 className={"mt-4"}
+                fullDescription
             />
             <Space className="mt-4" align="end">
                 <Button type="primary" onClick={() => setShowUpdateTodoModal(true)}>Update</Button>

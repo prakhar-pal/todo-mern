@@ -12,7 +12,9 @@ function UpdateTodoModal({ onClose, ...todo }) {
                 onClose();
             } else {
                 const message = response.message ?? DEFAULT_ERROR_MESSAGE;
-                notification.error(message);
+                notification.error({
+                    message
+                });
             }
         } catch {
             notification.error(DEFAULT_ERROR_MESSAGE);

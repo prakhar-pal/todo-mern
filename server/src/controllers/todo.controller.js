@@ -1,5 +1,6 @@
 import { ObjectId as MongoObjectId } from "mongodb";
 import Todo from "../models/todo.js";
+import { logger } from "../utils.js";
 
 export async function getAllTodos(req, res, next) {
     try {
@@ -91,12 +92,13 @@ export async function updateTodo(req, res, next) {
                 message: "Not Found",
             })
         }
-        await Todo.updateOne({ _id, title, description });
+        await todo.updateOne({ title, description });
         return res.json({
             ok: true,
         })
-    } catch {
-        return res.json({
+    } catch (err) {
+        logger.log(err);
+        return res.status(400).json({
             ok: false,
             message: "UKWN"
         })
