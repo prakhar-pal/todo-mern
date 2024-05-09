@@ -5,17 +5,21 @@ import TodoForm from "./TodoForm";
 import { DEFAULT_ERROR_MESSAGE } from "../config/constants";
 
 function AddTodoModal({ onClose }) {
-    async function onSubmit({title, description}) {
+    async function onSubmit({ title, description, status}) {
         try {
-            const response = await todoApiService.addTodo({title, description});
+            const response = await todoApiService.addTodo({ title, description, status });
             if(response.ok) {
                 onClose();
             } else {
                 const message = response.message ?? DEFAULT_ERROR_MESSAGE;
-                notification.error(message);
+                notification.error({
+                    message
+                });
             }
         } catch {
-            notification.error(DEFAULT_ERROR_MESSAGE);
+            notification.error({
+                message: DEFAULT_ERROR_MESSAGE
+            });
         }
     }
     return (
