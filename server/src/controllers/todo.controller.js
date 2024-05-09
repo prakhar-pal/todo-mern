@@ -1,4 +1,5 @@
 import { ObjectId as MongoObjectId } from "mongodb";
+import { validationResult } from "express-validator";
 import Todo from "../models/todo.js";
 import { logger } from "../utils.js";
 
@@ -38,13 +39,22 @@ export async function getTodo(req, res, next) {
 }
 
 
-export async function addTodo(req, res, next)  {
-    const { title, description } = req.body;
+export async function addTodo(req, res)  {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        logger.log("errors", result.array());
+        return res.status(400).json({
+            ok: false,
+            errors: result.array()
+        });
+    }
+    const { title, description, status } = req.body;
     console.log("addTodo", title, description);
     try {
         const newTodo = new Todo({
             title,
-            description
+            description,
+            status
         });
         await newTodo.save();
         return res.json({
@@ -54,11 +64,12 @@ export async function addTodo(req, res, next)  {
     } catch (err) {
         return res.json({
             ok: false,
+            error: err
         });
     }
 }
 
-export async function removeTodo(req, res, next) {
+export async function removeTodo(req, res) {
     const { id: stringId } = req.params;
     try {
         const _id = new MongoObjectId(stringId);
@@ -81,8 +92,16 @@ export async function removeTodo(req, res, next) {
     }
 }
 
-export async function updateTodo(req, res, next) {
-    const { _id: stringId, title, description } = req.body;
+export async function updateTodo(req, res) {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        logger.log("errors", result.array());
+        return res.status(400).json({
+            ok: false,
+            errors: result.array()
+        });
+    }
+    const { _id: stringId, title, description, status } = req.body;
     try {
         const _id = new MongoObjectId(stringId);
         const todo = await Todo.findOne({ _id });
@@ -92,7 +111,7 @@ export async function updateTodo(req, res, next) {
                 message: "Not Found",
             })
         }
-        await todo.updateOne({ title, description });
+        await todo.updateOne({ title, description, status });
         return res.json({
             ok: true,
         })
