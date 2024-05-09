@@ -1,10 +1,12 @@
 import 'dotenv/config.js'
 import express from "express";
 import bodyParser from 'body-parser';
+import cors from "cors";
 import routes from "./routes/index.js";
 import "./models/dbSetup.js";
 
 const app = express();
+app.use(cors());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 

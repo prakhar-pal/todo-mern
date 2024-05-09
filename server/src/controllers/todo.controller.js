@@ -1,5 +1,6 @@
 import { ObjectId as MongoObjectId } from "mongodb";
 import Todo from "../models/todo.js";
+import { logger } from "../utils.js";
 
 export async function getAllTodos(req, res, next) {
     try {
@@ -14,6 +15,28 @@ export async function getAllTodos(req, res, next) {
         })
     }
 }
+
+export async function getTodo(req, res, next) {
+    try {
+        const _id = new MongoObjectId(req.params.id);
+        const todo = await Todo.findOne({_id});
+        if(todo) {
+            return res.json({
+                ok: true,
+                todo
+            });
+        } else {
+            return res.status(404).json({
+                ok: false
+            });
+        }
+    } catch {
+        return res.json({
+            ok: false,
+        })
+    }
+}
+
 
 export async function addTodo(req, res, next)  {
     const { title, description } = req.body;
@@ -36,7 +59,7 @@ export async function addTodo(req, res, next)  {
 }
 
 export async function removeTodo(req, res, next) {
-    const { _id: stringId } = req.body;
+    const { id: stringId } = req.params;
     try {
         const _id = new MongoObjectId(stringId);
         const todo = await Todo.findOne({ _id });
@@ -69,14 +92,17 @@ export async function updateTodo(req, res, next) {
                 message: "Not Found",
             })
         }
-        await Todo.updateOne({ _id, title, description });
+        await todo.updateOne({ title, description });
         return res.json({
             ok: true,
         })
-    } catch {
-        return res.json({
+    } catch (err) {
+        logger.log(err);
+        return res.status(400).json({
             ok: false,
             message: "UKWN"
         })
     }
 }
+
+
