@@ -1,3 +1,5 @@
+import { TodoStatusEnums } from "./models/todo.js";
+
 class Logger {
     log(str) {
         console.log(str);
@@ -5,4 +7,13 @@ class Logger {
 }
 
 const logger = new Logger();
-export { logger };
+
+function todoStatusValidator(todoStatus) {
+    const isValidTodoStatus = TodoStatusEnums.includes(todoStatus);
+    if(!isValidTodoStatus) {
+        throw new Error("Not valid Status");
+    }
+    return true;
+}
+
+export { logger, todoStatusValidator };
