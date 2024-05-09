@@ -6,8 +6,8 @@ async function getAllTodos() {
     return response.data;
 }
 
-async function addTodo({title, description}) {
-    const response = await axios.post(`${SERVER_URL}/todo`, {title, description});
+async function addTodo(data) {
+    const response = await axios.post(`${SERVER_URL}/todo`, data);
     return response.data;
 }
 
