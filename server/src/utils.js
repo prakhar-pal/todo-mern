@@ -8,12 +8,17 @@ class Logger {
 
 const logger = new Logger();
 
-function todoStatusValidator(todoStatus) {
-    const isValidTodoStatus = TodoStatusEnums.includes(todoStatus);
-    if(!isValidTodoStatus) {
-        throw new Error("Not valid Status");
+function todoStatusValidator({ allowEmpty = false } = {}) {
+    return function (todoStatus) {
+        if(allowEmpty && !todoStatus) {
+            return true;
+        }
+        const isValidTodoStatus = TodoStatusEnums.includes(todoStatus);
+        if(!isValidTodoStatus) {
+            throw new Error("Not valid Status");
+        }
+        return true;
     }
-    return true;
 }
 
 export { logger, todoStatusValidator };

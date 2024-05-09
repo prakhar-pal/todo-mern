@@ -1,8 +1,10 @@
 import axios from "axios";
 import { SERVER_URL } from "../../config/server";
 
-async function getAllTodos() {
-    const response = await axios.get(`${SERVER_URL}/todo`);
+async function getAllTodos(queryParams) {
+    const response = await axios.get(`${SERVER_URL}/todo`, {
+        params: queryParams,
+    });
     return response.data;
 }
 

@@ -1,11 +1,21 @@
 import { ObjectId as MongoObjectId } from "mongodb";
 import { validationResult } from "express-validator";
 import Todo from "../models/todo.js";
-import { logger } from "../utils.js";
 
-export async function getAllTodos(req, res, next) {
+export async function getAllTodos(req, res) {
     try {
-        const todos = await Todo.find();
+        const result = validationResult(req);
+        if (!result.isEmpty()) {
+            return res.status(400).json({
+                ok: false,
+                errors: result.array()
+            });
+        }
+        const filters = {};
+        if(req.query.status) {
+            filters.status = req.query.status;
+        }
+        const todos = await Todo.find(filters);
         return res.json({
             ok: true,
             todos
@@ -42,7 +52,6 @@ export async function getTodo(req, res, next) {
 export async function addTodo(req, res)  {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        logger.log("errors", result.array());
         return res.status(400).json({
             ok: false,
             errors: result.array()
@@ -95,7 +104,6 @@ export async function removeTodo(req, res) {
 export async function updateTodo(req, res) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        logger.log("errors", result.array());
         return res.status(400).json({
             ok: false,
             errors: result.array()
@@ -116,7 +124,6 @@ export async function updateTodo(req, res) {
             ok: true,
         })
     } catch (err) {
-        logger.log(err);
         return res.status(400).json({
             ok: false,
             message: "UKWN"
