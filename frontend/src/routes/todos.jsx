@@ -46,7 +46,7 @@ function Todos() {
     if (!response.ok) {
         throw new Response("Something went wrong", { status: response.status });
     }
-    // setTodos(response.todos);
+    setTodos(response.todos);
   }
 
   function handleCloseTodoModal() {

@@ -14,6 +14,7 @@ A Todo app written with React.js, ant.design, tailwind used for frontend and Exp
 |form validation|yes|yes|
 |responsive UI|yes|NA|
 |Error Boundary UI| yes | NA |
+|Empty state for todo list page| yes | NA |
 
 
 

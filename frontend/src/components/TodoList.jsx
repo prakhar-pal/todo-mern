@@ -10,7 +10,7 @@ const TodoList = ({ todos }) => {
 
     if(!todos || !todos.length) {
         return (
-            <Card title="You haven't added any Todos">
+            <Card title="No results for todos!">
                 <div className="text-center">Add Todos to track them here</div>
                 <div className="flex items-center justify-center mt-8">
                     <Button type="primary" onClick={handleAddTodo}>
