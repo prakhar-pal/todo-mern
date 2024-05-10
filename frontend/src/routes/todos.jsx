@@ -7,12 +7,14 @@ import TodoList from "../components/TodoList";
 import AddTodoModal from "../components/AddTodoModal";
 
 import { TodoStatusOptions } from "../config/constants";
+import eventBus from "../services/eventBus";
 
 function Todos() {
   const [todos, setTodos ] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const [showAddTodoModal, setShowAddTodoModal] = React.useState(false);
+
   const [statusFilter, setStatusFilter] = React.useState((function(){
     const usp = new URLSearchParams(location.search);
     if(usp.get("status")) {
@@ -20,6 +22,7 @@ function Todos() {
     }
     return "";
   })());
+
   const todoFilterOptions = React.useMemo(() => {
     return [
         {label: "All", value: ""},
@@ -51,8 +54,13 @@ function Todos() {
     fetchTodos();
   }
 
+  function handleClickAddTodo() {
+    setShowAddTodoModal(true);
+  }
+
   useEffect(() => {
     fetchTodos(statusFilter);
+    eventBus.on('add-todo', handleClickAddTodo);
   },[]);
 
   return (
@@ -64,7 +72,7 @@ function Todos() {
         <Button
           title="Add new todo"
           type="primary"
-          onClick={() => setShowAddTodoModal(true)}
+          onClick={handleClickAddTodo}
         >
           Add todo
         </Button>
