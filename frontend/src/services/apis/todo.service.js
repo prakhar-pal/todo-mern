@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SERVER_URL } from "../../config/server";
+import { SERVER_URL } from "../../config/constants";
 
 async function getAllTodos(queryParams) {
     const response = await axios.get(`${SERVER_URL}/todo`, {

@@ -6,7 +6,7 @@ import { useLoaderData, useRevalidator } from "react-router";
 import TodoCard from "../components/TodoCard";
 import UpdateTodoModal from "../components/UpdateTodoModal.jsx";
 
-function EditTodo() {
+function TodoDetailsPage() {
     const { todo } = useLoaderData();
     const revalidator = useRevalidator();
     const [showUpdateTodoModal, setShowUpdateTodoModal] = useState(false);
@@ -71,4 +71,4 @@ export async function loader({ params }) {
     }
 }
 
-export default EditTodo;
+export default TodoDetailsPage;

@@ -1,4 +1,5 @@
 export const DEFAULT_ERROR_MESSAGE = "Something went wrong";
+export const SERVER_URL = "http://localhost:8080/api";
 
 export const TodoStatusOptions = [
     {
